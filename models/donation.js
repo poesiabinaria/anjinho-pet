@@ -1,13 +1,17 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db");
+const User = require("./user");
+const Medicine = require("./medicine");
 
-const Medicine = db.define("Medicine", {
-  name: { type: Sequelize.STRING },
-  type: { type: Sequelize.STRING },
-  dose: { type: Sequelize.STRING },
-  availableQty: { type: Sequelize.STRING },
-  expirationDate: { type: Sequelize.DATEONLY },
-  imageUrl: { type: Sequelize.STRING },
+const Donation = db.define("donation", {
+  donationId: { type: Sequelize.INTEGER, primaryKey: true },
+  //   donorId: { type: Sequelize.INTEGER, foreignKey: "userId" },
+  //   doneeId: { type: Sequelize.INTEGER, foreignKey: "userId" },
+  //   medicineId: { type: Sequelize.INTEGER, foreignKey: "medicineId" },
 });
 
-module.exports = Medicine;
+Donation.belongsTo(User, { as: "donor", foreignKey: "donorId" });
+Donation.belongsTo(User, { as: "donee", foreignKey: "doneeId" });
+Donation.belongsTo(Medicine, { foreignKey: "medicineId" });
+
+module.exports = Donation;

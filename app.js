@@ -17,43 +17,49 @@ const db = require("./config/db");
 
 const User = require("./models/user");
 const Role = require("./models/role");
+const Medicine = require("./models/medicine");
 const Donation = require("./models/donation");
 
 db.sync({ force: true }).then(() => {
   console.log("Drop and resync db");
 
   Role.create({
-    id: 1,
+    roleId: 1,
     name: "tutor",
   });
 
   Role.create({
-    id: 2,
+    roleId: 2,
     name: "veterinary",
   });
 
   Role.create({
-    id: 3,
+    roleId: 3,
     name: "voluntary",
   });
 
   Role.create({
-    id: 4,
+    roleId: 4,
     name: "shelter",
   });
 });
 
-const getById = async () => {
-  console.log("USERRRRRR");
-  const role = await Role.findByPk(1);
+// const getById = async () => {
+//   console.log("USERRRRRR");
+//   const role = await Role.findByPk(1);
 
-  console.log(role);
-};
+//   console.log(role);
+// };
 
-getById();
+// getById();
 
 app.get("/", (req, res) => {
   res.send("Olá!");
+});
+
+app.post("/medicine/add", (req, res) => {
+  console.log(req.body);
+  res.send("Add a new medicine");
 });
 
 app.listen(process.env.PORT, () => {
