@@ -16,6 +16,8 @@ const Donation = db.define("donation", {
 
 Donation.belongsTo(User, { as: "donor", foreignKey: "donorId" });
 Donation.belongsTo(User, { as: "donee", foreignKey: "doneeId" });
-Donation.belongsTo(Medicine, { foreignKey: "medicineId" });
+Donation.belongsTo(Medicine, {
+  foreignKey: { name: "medicineId", allowNull: false },
+});
 
 module.exports = Donation;

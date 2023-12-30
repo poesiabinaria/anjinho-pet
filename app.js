@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const userRouter = require("./routes/user");
 const medicineRouter = require("./routes/medicine");
+const donationRouter = require("./routes/donation");
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRouter);
 app.use("/medicine", medicineRouter);
+app.use("/donation", donationRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}`);
