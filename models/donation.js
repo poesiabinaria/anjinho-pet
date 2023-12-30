@@ -4,7 +4,11 @@ const User = require("./user");
 const Medicine = require("./medicine");
 
 const Donation = db.define("donation", {
-  donationId: { type: Sequelize.INTEGER, primaryKey: true },
+  donationId: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   //   donorId: { type: Sequelize.INTEGER, foreignKey: "userId" },
   //   doneeId: { type: Sequelize.INTEGER, foreignKey: "userId" },
   //   medicineId: { type: Sequelize.INTEGER, foreignKey: "medicineId" },
