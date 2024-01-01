@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const Donation = require("../models/donation");
-const User = require("../models/user");
+const Donation = require("../models/donationModel");
+const User = require("../models/userModel");
 
 const newDonationHandler = async (req, res) => {
   await Donation.create(req.body);
@@ -14,6 +14,17 @@ const deleteDonationHandler = async (req, res) => {
   await Donation.destroy({ where: { donationId: req.params.donationId } });
 
   res.send("Delete a donation");
+};
+
+const updateDonationStatusHandler = async (req, res) => {
+  await Donation.update(
+    { status: req.body.status },
+    {
+      where: { donationId: req.params.donationId },
+    }
+  );
+
+  res.send("Update donation status");
 };
 
 const getDonationsMadeByUserIdHandler = async (req, res) => {
@@ -42,6 +53,7 @@ const getDonationsReceivedByUserIdHandler = async (req, res) => {
 
 router.post("/", newDonationHandler);
 router.delete("/:donationId", deleteDonationHandler);
+router.put("/:donationId", updateDonationStatusHandler);
 router.get("/made/user/:userId", getDonationsMadeByUserIdHandler);
 router.get("/received/user/:userId", getDonationsReceivedByUserIdHandler);
 

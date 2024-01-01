@@ -1,20 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
-const User = require("../models/user");
+const { requireAuth } = require("../middleware/authMiddleware");
+const User = require("../models/userModel");
 
 const getUserByIdHandler = async (req, res) => {
   console.log(req.body);
 
-  const users = await User.findOne({
-    where: { userId: req.params.id },
+  const users = await User.findByPk(req.userId, {
     attributes: ["username", "email", "roleId"],
   });
 
   res.send(users);
 };
 
-const getUserByRoleHandler = async (req, res) => {
+const getUsersByRoleHandler = async (req, res) => {
   console.log(req.body);
 
   const users = await User.findAll({
@@ -33,8 +33,8 @@ const registerUserHandler = async (req, res) => {
   res.send("Register new user");
 };
 
-router.get("/:id", getUserByIdHandler);
-router.get("/role/:id", getUserByRoleHandler);
+router.get("/", requireAuth, getUserByIdHandler);
+router.get("/role/:id", requireAuth, getUsersByRoleHandler);
 router.post("/register", registerUserHandler);
 
 module.exports = router;

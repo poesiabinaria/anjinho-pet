@@ -1,13 +1,16 @@
+require("dotenv-safe").config({
+  allowEmptyValues: true,
+});
+
 const express = require("express");
 const cors = require("cors");
 
-const userRouter = require("./routes/user");
-const medicineRouter = require("./routes/medicine");
-const donationRouter = require("./routes/donation");
+const loginRouter = require("./routes/loginRoutes");
+const userRouter = require("./routes/userRoutes");
+const medicineRouter = require("./routes/medicineRoutes");
+const donationRouter = require("./routes/donationRoutes");
 
 const app = express();
-
-require("dotenv").config();
 
 var corsOptions = {
   origin: "http://localhost:3000",
@@ -19,9 +22,9 @@ app.use(express.urlencoded({ extended: true }));
 
 const db = require("./config/db");
 
-const Role = require("./models/role");
+const Role = require("./models/roleModel");
 
-const Donation = require("./models/donation");
+const Donation = require("./models/donationModel");
 
 db.sync({ alter: true }).then(() => {
   console.log("Drop and resync db");
@@ -60,6 +63,7 @@ app.get("/", (req, res) => {
   res.send("Olá!");
 });
 
+app.use("/login", loginRouter);
 app.use("/user", userRouter);
 app.use("/medicine", medicineRouter);
 app.use("/donation", donationRouter);

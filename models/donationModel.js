@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db");
-const User = require("./user");
-const Medicine = require("./medicine");
+const User = require("./userModel");
+const Medicine = require("./medicineModel");
 
 const Donation = db.define("donation", {
   donationId: {
@@ -9,6 +9,7 @@ const Donation = db.define("donation", {
     autoIncrement: true,
     primaryKey: true,
   },
+  status: { type: Sequelize.STRING },
   //   donorId: { type: Sequelize.INTEGER, foreignKey: "userId" },
   //   doneeId: { type: Sequelize.INTEGER, foreignKey: "userId" },
   //   medicineId: { type: Sequelize.INTEGER, foreignKey: "medicineId" },
