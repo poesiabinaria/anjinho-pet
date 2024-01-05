@@ -14,8 +14,6 @@ const requireAuth = (req, res, next) => {
 
     req.userId = decoded.id;
 
-    console.log("@@@@@@@@@@@@@@@", decoded.id);
-
     next();
   });
 };

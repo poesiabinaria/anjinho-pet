@@ -39,10 +39,12 @@ User.prototype.validPassword = async (loginPassword, userPassword) =>
 // });
 
 // 1:N
+// GET ROLES WITH USERS
 Role.hasMany(User, { foreignKey: { name: "roleId", allowNull: false } });
-User.belongsTo(Role, { foreignKey: "userId" });
+// GET USERS AND ITS ROLE
+User.belongsTo(Role, { foreignKey: "roleId" });
 
 User.hasMany(Medicine, { foreignKey: { name: "userId", allowNull: false } });
-Medicine.belongsTo(User, { foreignKey: "medicineId" });
+Medicine.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = User;

@@ -5,8 +5,6 @@ const { requireAuth } = require("../middleware/authMiddleware");
 const User = require("../models/userModel");
 
 const getUserByIdHandler = async (req, res) => {
-  console.log(req.body);
-
   const users = await User.findByPk(req.userId, {
     attributes: ["username", "email", "roleId"],
   });
@@ -15,8 +13,6 @@ const getUserByIdHandler = async (req, res) => {
 };
 
 const getUsersByRoleHandler = async (req, res) => {
-  console.log(req.body);
-
   const users = await User.findAll({
     where: { roleId: req.params.id },
     attributes: ["username", "email", "roleId"],
@@ -26,8 +22,6 @@ const getUsersByRoleHandler = async (req, res) => {
 };
 
 const registerUserHandler = async (req, res) => {
-  console.log(req.body);
-
   await User.create(req.body);
 
   res.send("Register new user");
