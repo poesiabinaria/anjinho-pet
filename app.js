@@ -145,9 +145,11 @@ db.sync({ force: true }).then(async () => {
 app.get("/chat", async (req, res) => {
   console.log("list chats");
 
+  const userId = 2;
+
   const donations = await Donation.findAll({
     where: {
-      [Op.or]: [{ donorId: 1 }, { doneeId: 1 }],
+      [Op.or]: [{ donorId: userId }, { doneeId: userId }],
     },
     attributes: ["donationId"],
   });
@@ -155,14 +157,20 @@ app.get("/chat", async (req, res) => {
   const donationIds = donations.map((item) => item.donationId);
 
   const conversations = await Conversation.findAll({
-    where: { userId: { [Op.ne]: 1 }, donationId: donationIds },
+    where: { userId: { [Op.ne]: userId }, donationId: donationIds },
     include: User,
   });
+
+  res.sendFile(__dirname + "/index.html");
 
   res.send(conversations);
 });
 
-app.post("/chat/:senderId/to/:receiverId", (req, res) => {
+app.get("/allchats", async (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
+app.get("/chat/:senderId/to/:receiverId", (req, res) => {
   console.log("get chat", __dirname);
 
   const { senderId, receiverId } = req.params;
@@ -178,6 +186,7 @@ app.post("/chat/:senderId/to/:receiverId", (req, res) => {
       console.log("message: " + text);
       console.log("senderId: " + senderId);
       console.log("receiverId: " + receiverId);
+
       io.emit("chatToClient", data.text);
     });
 
@@ -186,7 +195,7 @@ app.post("/chat/:senderId/to/:receiverId", (req, res) => {
     });
   });
 
-  res.sendFile(__dirname + "/index.html");
+  // res.sendFile(__dirname + "/index.html");
 });
 app.use("/login", loginRouter);
 app.use("/user", userRouter);
